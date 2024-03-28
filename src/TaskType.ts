@@ -3,6 +3,7 @@ export type Task = {
   name: string;
   createTime: number;
   id: number;
+  isFinished: boolean;
   endTime?: number;
 };
 export enum FilterType {

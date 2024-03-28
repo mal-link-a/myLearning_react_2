@@ -1,14 +1,16 @@
 import React from 'react';
 
-type MyProps = {
+import { FilterType } from './TaskType.ts';
+
+interface MyProps {
   filterType: string;
   filterCall: (id: string) => void;
   clearFinishedCall: () => void;
-};
+}
 
 class TaskButtonPanel extends React.Component<MyProps> {
   handleFilterList = (id: string): (() => void) => {
-    let funcFilter: (id: string) => void = this.props.filterCall;
+    const funcFilter: (id: string) => void = this.props.filterCall;
     return function (): void {
       funcFilter(id);
     };
@@ -19,21 +21,20 @@ class TaskButtonPanel extends React.Component<MyProps> {
   };
 
   render(): React.JSX.Element {
-    let data: string = this.props.filterType;
     return (
       <div>
-        <button type="button" className="buttonStyle" onClick={this.handleFilterList('ALL')}>
+        <button type="button" className="buttonStyle" onClick={this.handleFilterList(FilterType.ALL)}>
           Все задачи
         </button>
-        <button type="button" className="buttonStyle" onClick={this.handleFilterList('AVALIIABLE')}>
+        <button type="button" className="buttonStyle" onClick={this.handleFilterList(FilterType.AVALIIABLE)}>
           В процессе
         </button>
-        <button type="button" className="buttonStyle" onClick={this.handleFilterList('FINISHED')}>
+        <button type="button" className="buttonStyle" onClick={this.handleFilterList(FilterType.FINISHED)}>
           Завершённые
         </button>
         <button
           type="button"
-          className={`buttonStyle ${data === 'FINISHED' ? '' : 'hidden'}`}
+          className={`buttonStyle ${this.props.filterType === FilterType.FINISHED ? '' : 'hidden'}`}
           onClick={this.handleClearFinished}
         >
           Очистить

@@ -4,35 +4,37 @@ import checkBoxOff from './img/check-off.svg';
 import checkBoxOn from './img/check-on.svg';
 import TaskDescription from './TaskDescription.tsx';
 
-type MyProps = {
+interface MyProps {
   isFinished: boolean;
   id: number;
   string: string;
   setAsFinished: (id: number) => void;
   toggieEditMode: (id: number, input: string) => void;
-  deleteScr: (id: number, isFinished: boolean) => void;
+  deleteScr: (id: number) => void;
   editID: number | null;
   createTime: number;
   editTaskContent: (id: number, text: string) => void;
-};
+}
 
 class NewTask extends React.Component<MyProps> {
   handleSetTaskAsFinished = (): void => {
-    if (!this.props.isFinished) {
-      this.props.setAsFinished(this.props.id);
+    const [isFinished, setAsFinished, id] = [this.props.isFinished, this.props.setAsFinished, this.props.id];
+    if (!isFinished) {
+      setAsFinished(id);
     }
   };
   handleToggieEditMode = (e): void => {
+    const [toggieEditMode, id, description] = [this.props.toggieEditMode, this.props.id, e.target.description];
     e.preventDefault();
-    return this.props.toggieEditMode(this.props.id, e.target.description);
+    return toggieEditMode(id, description);
   };
   handleDeleteTask = (e): void => {
     e.preventDefault();
-    return this.props.deleteScr(this.props.id, this.props.isFinished);
+    return this.props.deleteScr(this.props.id);
   };
 
   render(): React.JSX.Element {
-    let [isFinished, editID, id, createTime, string] = [
+    const [isFinished, editID, id, createTime, string] = [
       this.props.isFinished,
       this.props.editID,
       this.props.id,
@@ -40,7 +42,7 @@ class NewTask extends React.Component<MyProps> {
       this.props.string,
     ];
     return (
-      <form className={` id${this.props.id} task ${isFinished ? 'finished' : ''}`} onSubmit={this.handleToggieEditMode}>
+      <form className={` id${id} task ${isFinished ? 'finished' : ''}`} onSubmit={this.handleToggieEditMode}>
         <label className="task__finisher">
           <button type="button" className="task__finisher_btn" onClick={this.handleSetTaskAsFinished}>
             <img src={isFinished ? checkBoxOn : checkBoxOff} alt="" className="task__finisher_img" />
