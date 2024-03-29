@@ -1,13 +1,13 @@
 import React from 'react';
 
-type MyProps = {
+interface MyProps {
   id: number | undefined;
   editID: number | null;
   description: string;
   titleCreateTime: number;
-  editTaskContent: (id: number, value: any) => void;
-  toggieEditMode: (input: any) => void;
-};
+  editTaskContent: (id: number, value: string) => void;
+  toggieEditMode: (input: React.DOMAttributes<HTMLInputElement>) => void;
+}
 
 class TaskDescription extends React.Component<MyProps> {
   changeHandler = (e): void => {
@@ -23,31 +23,27 @@ class TaskDescription extends React.Component<MyProps> {
   };
 
   render(): React.JSX.Element {
-    let [description, titleCreateTime, isEditing] = [
-      this.props.description,
-      this.props.titleCreateTime,
-      this.props.id === this.props.editID,
-    ];
+    const { description, titleCreateTime, id, editID } = this.props;
     return (
       <input
         name="description"
         type="text"
-        className={`task__name ${isEditing ? 'task__name_editMode' : ''}`}
+        className={`task__name ${id === editID ? 'task__name_editMode' : ''}`}
         onChange={this.changeHandler}
         onBlur={this.editHandler}
         value={description}
-        title={isEditing ? '' : getTitleCreateTime(titleCreateTime)}
+        title={id === editID ? '' : getTitleCreateTime(titleCreateTime)}
       />
     );
   }
 }
 
 function getTitleCreateTime(createTime: number): string {
-  let time: number = Math.floor((Date.now() - createTime) / 1000);
+  const time: number = Math.floor((Date.now() - createTime) / 1000);
   //Дни
   if (time > 86400) {
     let days: string;
-    let floorTime = Math.floor(time / 86400);
+    const floorTime = Math.floor(time / 86400);
     if (floorTime === 1) {
       days = 'день';
     } else if (floorTime < 5) {
@@ -60,7 +56,7 @@ function getTitleCreateTime(createTime: number): string {
   //Часы
   if (time > 3600) {
     let hour: string;
-    let floorTime = Math.floor(time / 3600);
+    const floorTime = Math.floor(time / 3600);
     if (floorTime === 1) {
       return 'Создана час назад';
     } else if (floorTime < 5) {
@@ -73,7 +69,7 @@ function getTitleCreateTime(createTime: number): string {
   //Минуты
   if (time > 60) {
     let min: string;
-    let floorTime = Math.floor(time / 60);
+    const floorTime = Math.floor(time / 60);
     if (floorTime === 1) {
       min = 'минуту';
     } else if (floorTime < 5) {

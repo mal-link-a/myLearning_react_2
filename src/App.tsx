@@ -96,7 +96,7 @@ class App extends React.Component {
   //Зачищаем все готовые таски и сбрасываем фильтр
   clearAllFinishedTasks = (): void => {
     console.log('Запуск clearAllFinishedTasks');
-    const newData: Task[] = this.state.tasks.filter((item: Task) => item.isFinished);
+    const newData: Task[] = this.state.tasks.filter((item: Task) => !item.isFinished);
     this.setState({ tasks: newData, filterType: 'ALL' });
     console.log('Отработали clearAllFinishedTasks');
   };

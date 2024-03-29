@@ -18,15 +18,15 @@ interface MyProps {
 
 class NewTask extends React.Component<MyProps> {
   handleSetTaskAsFinished = (): void => {
-    const [isFinished, setAsFinished, id] = [this.props.isFinished, this.props.setAsFinished, this.props.id];
+    const { isFinished, setAsFinished, id } = this.props;
     if (!isFinished) {
       setAsFinished(id);
     }
   };
   handleToggieEditMode = (e): void => {
-    const [toggieEditMode, id, description] = [this.props.toggieEditMode, this.props.id, e.target.description];
+    const { toggieEditMode, id } = this.props;
     e.preventDefault();
-    return toggieEditMode(id, description);
+    return toggieEditMode(id, e.target.description);
   };
   handleDeleteTask = (e): void => {
     e.preventDefault();
@@ -34,13 +34,7 @@ class NewTask extends React.Component<MyProps> {
   };
 
   render(): React.JSX.Element {
-    const [isFinished, editID, id, createTime, string] = [
-      this.props.isFinished,
-      this.props.editID,
-      this.props.id,
-      this.props.createTime,
-      this.props.string,
-    ];
+    const { isFinished, editID, id, createTime, string } = this.props;
     return (
       <form className={` id${id} task ${isFinished ? 'finished' : ''}`} onSubmit={this.handleToggieEditMode}>
         <label className="task__finisher">
